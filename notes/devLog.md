@@ -19,6 +19,7 @@
     喝点小酒，吃点夜宵，在来。
 
 #2.25 凌晨3:12 完成 dailyCard, hourlyCard,并且完成 状态栏&小白条的适配。
+
     下一步：
 
         1.dailyItem里面的tagButton 换成 TextView吧，背景色才不会那么奇怪
