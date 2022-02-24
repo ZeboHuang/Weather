@@ -20,6 +20,7 @@
 
 #2.25 凌晨3:12 完成 dailyCard, hourlyCard,并且完成 状态栏&小白条的适配。
     下一步：
+
         1.dailyItem里面的tagButton 换成 TextView吧，背景色才不会那么奇怪
     
         2.toolbar上面的图标颜色太深，深背景下不容易看清，需解决。
