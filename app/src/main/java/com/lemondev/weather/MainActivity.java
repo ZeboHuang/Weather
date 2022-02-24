@@ -1,7 +1,12 @@
 package com.lemondev.weather;
 
+import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,11 +19,13 @@ import com.lemondev.weather.ui.fragment.MainFragment;
 import com.lemondev.weather.utils.Credentials;
 import com.lemondev.weather.viewmodels.WeatherViewModel;
 
+import java.util.Set;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private final String TAG = "MainActivity";
 
@@ -32,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+
         setContentView(binding.getRoot());
 
         if (savedInstanceState == null) {
@@ -41,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
     }
+
+
+
 
     void GetUpdate() {
         WeatherApi weatherApi = Servicey.getWeatherApi();

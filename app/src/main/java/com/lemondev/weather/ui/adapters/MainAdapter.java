@@ -31,6 +31,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             cardViewTypeList = new ArrayList<>();
             cardViewTypeList.add(ViewType.HEADER);
             cardViewTypeList.add(ViewType.DAILY);
+            cardViewTypeList.add(ViewType.HOURLY);
+            cardViewTypeList.add(ViewType.FOOTER);
 
         }
     }

@@ -72,10 +72,7 @@ public class DailyViewHolder extends AbstractCardViewHolder implements OnTagClic
 
         tagList = new ArrayList<>();
         tagList.add(ViewType.TEMPERATURE);
-        tagList.add(ViewType.HUMIDITY);
-        tagList.add(ViewType.AIR_QUALITY);
-        tagList.add(ViewType.AIR_QUALITY);
-        tagList.add(ViewType.AIR_QUALITY);
+        tagList.add(ViewType.SUN_CONDITION);
 
         localTime = FormatUtils.getFormatDate("MM-dd hh:mm", new Date());
     }
@@ -84,7 +81,6 @@ public class DailyViewHolder extends AbstractCardViewHolder implements OnTagClic
     public void onBindView(@NonNull WeatherModel weatherModel) {
         super.onBindView(weatherModel);
         updateTimeText.setText("更新于 " + localTime);
-        itemView.getBackground().setAlpha(180);
 
         dailyTrendAdapter.setWeatherModel(weatherModel);
         trendView.setAdapter(dailyTrendAdapter);

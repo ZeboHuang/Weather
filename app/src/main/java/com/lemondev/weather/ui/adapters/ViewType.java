@@ -17,5 +17,5 @@ public interface ViewType {
     int TEMPERATURE = 100;
     int HUMIDITY = 101;
     int AIR_QUALITY = 102;
-
+    int SUN_CONDITION = 103;
 }

@@ -2,10 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="70dp"
-    android:layout_height="wrap_content"
-    android:layout_marginEnd="5dp"
-    android:paddingTop="10dp">
+    android:layout_width="wrap_content"
+    android:layout_height="220dp"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/daily_trend_item_week_text"
@@ -14,7 +13,8 @@
         android:text="周一"
         android:textAlignment="center"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/daily_trend_item_month_text"
+        app:layout_constraintStart_toStartOf="@+id/daily_trend_item_month_text"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -24,8 +24,8 @@
         android:text="二月"
         android:textAlignment="center"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/daily_trend_item_week_text"
-        app:layout_constraintStart_toStartOf="@+id/daily_trend_item_week_text"
+        app:layout_constraintEnd_toEndOf="@+id/daily_trend_item_day_text"
+        app:layout_constraintStart_toStartOf="@+id/daily_trend_item_day_text"
         app:layout_constraintTop_toBottomOf="@+id/daily_trend_item_week_text" />
 
     <TextView
@@ -35,18 +35,18 @@
         android:text="day"
         android:textAlignment="center"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/daily_trend_item_month_text"
-        app:layout_constraintStart_toStartOf="@+id/daily_trend_item_month_text"
+        app:layout_constraintEnd_toEndOf="@+id/daily_trend_item_icon_imageview"
+        app:layout_constraintStart_toStartOf="@+id/daily_trend_item_icon_imageview"
         app:layout_constraintTop_toBottomOf="@+id/daily_trend_item_month_text" />
 
     <ImageView
         android:id="@+id/daily_trend_item_icon_imageview"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/icons8_cloud_100"
-        app:layout_constraintEnd_toEndOf="@+id/daily_trend_item_day_text"
-        app:layout_constraintStart_toStartOf="@+id/daily_trend_item_day_text"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/daily_trend_item_day_text" />
 
     <TextView

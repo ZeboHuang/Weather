@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/hourly_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/hourly_skycon_icon"
+        app:layout_constraintStart_toStartOf="@+id/hourly_skycon_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/hourly_skycon_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/icons8_light_rain_100"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hourly_time" />
+
+    <TextView
+        android:id="@+id/hourly_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="18°"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/hourly_skycon_icon"
+        app:layout_constraintStart_toStartOf="@+id/hourly_skycon_icon"
+        app:layout_constraintTop_toBottomOf="@+id/hourly_skycon_icon" />
+
+    <TextView
+        android:id="@+id/hourly_skycon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+
+        android:text="晴"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/hourly_temperature"
+        app:layout_constraintStart_toStartOf="@+id/hourly_temperature"
+        app:layout_constraintTop_toBottomOf="@+id/hourly_temperature" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
