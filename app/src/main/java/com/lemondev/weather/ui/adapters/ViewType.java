@@ -13,4 +13,9 @@ public interface ViewType {
     int FOOTER = -1;
 
     //more...
+
+    int TEMPERATURE = 100;
+    int HUMIDITY = 101;
+    int AIR_QUALITY = 102;
+
 }

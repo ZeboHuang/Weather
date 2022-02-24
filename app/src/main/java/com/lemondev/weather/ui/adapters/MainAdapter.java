@@ -1,14 +1,10 @@
 package com.lemondev.weather.ui.adapters;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.lemondev.weather.R;
 import com.lemondev.weather.models.WeatherModel;
 import com.lemondev.weather.ui.adapters.ViewHolder.AbstractViewHolder;
 import com.lemondev.weather.ui.adapters.ViewHolder.DailyViewHolder;
@@ -111,6 +107,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void setWeatherModel(WeatherModel weatherModel) {
+
         this.weatherModel = weatherModel;
         notifyDataSetChanged();
     }

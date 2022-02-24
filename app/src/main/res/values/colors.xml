@@ -7,4 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="thistle">#D8BFD8</color>
+    <color name="snow">#FFFAFA</color>
+    <color name="white_smoke">#F5F5F5</color>
+    <color name="grainsboro">#DCDCDC</color>
 </resources>

@@ -1,7 +1,6 @@
 package com.lemondev.weather.ui.adapters.ViewHolder;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,8 +9,7 @@ import androidx.annotation.NonNull;
 
 import com.lemondev.weather.R;
 import com.lemondev.weather.models.WeatherModel;
-import com.lemondev.weather.models.transform.SkyconIconTransform;
-import com.lemondev.weather.models.transform.SkyconTransform;
+import com.lemondev.weather.utils.TransformUtils;
 
 /**
  * 2022/2/23
@@ -20,6 +18,7 @@ import com.lemondev.weather.models.transform.SkyconTransform;
 
 public class HeaderViewHolder extends AbstractViewHolder {
     private int mTemperature;
+    private int mApparentTempe;
     private String mTemperatureUnit;
     private String mSkycon;
     private String mLifeIndex;
@@ -44,6 +43,7 @@ public class HeaderViewHolder extends AbstractViewHolder {
         skyconIcon = itemView.findViewById(R.id.realtime_skycon_icon);
 
         mTemperature = 0;
+        mApparentTempe = 0;
         mTemperatureUnit = "°";       // 通过设置可以设置。SettingManager.getInstance().getTemperatureUnit();...
         mSkycon = "-";
         mLifeIndex = "-";
@@ -63,14 +63,27 @@ public class HeaderViewHolder extends AbstractViewHolder {
         super.onBindView(weatherModel);
 
         mTemperature = (int) weatherModel.getRealtime().getTemperature();
-        mSkycon = SkyconTransform.getSkycon(weatherModel.getRealtime().getSkycon());
+        mApparentTempe = (int) weatherModel.getRealtime().getApparent_temperature();
+        mSkycon = TransformUtils.getSkycon(weatherModel.getRealtime().getSkycon());
         mLifeIndex = weatherModel.getRealtime().getLife_index().getComfort().getDesc();
         mKeypoint = weatherModel.getForecast_keypoint();
-        mSkyconIconRes = SkyconIconTransform.getSkyconIcon(weatherModel.getRealtime().getSkycon());
+        mSkyconIconRes = TransformUtils.getSkyconIcon(weatherModel.getRealtime().getSkycon());
+
+
+        /**
+         * 后续可以写个具体类控制
+         *  根据时区时间来控制吧
+         */
+
+        if (weatherModel.getRealtime().getSkycon().contains("NIGHT")) {
+            tempText.setTextColor(itemView.getResources().getColor(R.color.grainsboro));
+            descText.setTextColor(itemView.getResources().getColor(R.color.grainsboro));
+            keypointText.setTextColor(itemView.getResources().getColor(R.color.grainsboro));
+        }
 
         //set
         tempText.setText(mTemperature + mTemperatureUnit);
-        descText.setText(mSkycon + "|" + mLifeIndex);
+        descText.setText(mSkycon + " | " + mLifeIndex + " | 体感 " + mApparentTempe + mTemperatureUnit);
         keypointText.setText(mKeypoint);
         skyconIcon.setImageResource(mSkyconIconRes);
     }

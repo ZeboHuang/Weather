@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -31,6 +32,7 @@ import com.lemondev.weather.models.WeatherModel;
 import com.lemondev.weather.request.WeatherApiClient;
 import com.lemondev.weather.ui.adapters.MainAdapter;
 import com.lemondev.weather.utils.Credentials;
+import com.lemondev.weather.utils.TransformUtils;
 import com.lemondev.weather.viewmodels.MainFragmentViewModel;
 
 /**
@@ -39,6 +41,8 @@ import com.lemondev.weather.viewmodels.MainFragmentViewModel;
  */
 
 public class MainFragment extends BaseFragment {
+    private ImageView mBackground;
+
     private FragmentMainBinding binding;
 
     private Toolbar toolbar;
@@ -68,6 +72,7 @@ public class MainFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         recyclerView = view.findViewById(R.id.mainFragmentRecyclerView);
+        mBackground = view.findViewById(R.id.background);
 
         initView();
 
@@ -81,11 +86,9 @@ public class MainFragment extends BaseFragment {
         binding.toolbar.setOnMenuItemClickListener(new androidx.appcompat.widget.Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Log.d("MTAG", "onMenuItemClick: ");
 
                 switch (item.getItemId()) {
                     case R.id.menu_top_bar_search:
-                        Log.d("MTAG", "onMenuItemClick: ");
                         Toast.makeText(getContext(), "searching...", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.menu_top_bar_setting:
@@ -109,21 +112,27 @@ public class MainFragment extends BaseFragment {
         /**
          * binding.mainFragmentRecyclerView 与 findViewById 不一样？
          */
-        Log.d("MTAG", "initView: binding : " + binding.mainFragmentRecyclerView.toString());
-        Log.d("MTAG", "initView: findViewById: " + recyclerView.toString());
-
 
         ObserveWeatherChanged();
 
         WeatherApiClient.getInstance().update(
                 String.valueOf(118.186289),
                 String.valueOf(25.055955));
+
+
     }
 
+
     void ObserveWeatherChanged() {
-        weatherViewModel.getWeather().observe(this, new Observer<WeatherModel>() {
+        weatherViewModel.getWeather().observe(getViewLifecycleOwner(), new Observer<WeatherModel>() {
             @Override
             public void onChanged(WeatherModel weatherModel) {
+                /**
+                 * set background
+                 */
+                mBackground.setImageResource(TransformUtils.getSkyconBackground(weatherModel.getRealtime().getSkycon()));
+
+
                 mainAdapter.setWeatherModel(weatherModel);
                 recyclerView.setAdapter(mainAdapter);
             }
@@ -141,7 +150,6 @@ public class MainFragment extends BaseFragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_top_bar_search:
-                Log.d("MTAG", "onMenuItemClick: ");
                 Toast.makeText(getContext(), "searching...", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_top_bar_setting:

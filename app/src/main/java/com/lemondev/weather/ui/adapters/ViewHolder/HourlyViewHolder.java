@@ -17,7 +17,7 @@ import com.lemondev.weather.ui.recyclerview.TrendRecyclerView;
  * Created by vibrantBobo
  */
 
-public class HourlyViewHolder extends AbstractViewHolder {
+public class HourlyViewHolder extends AbstractCardViewHolder {
 
     TextView keypointText;  //may be have...
     TrendRecyclerView trendView;

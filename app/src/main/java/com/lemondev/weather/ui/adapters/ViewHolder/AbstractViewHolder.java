@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
 import com.lemondev.weather.R;
 import com.lemondev.weather.models.WeatherModel;
+import com.lemondev.weather.utils.TransformUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -33,35 +34,11 @@ public class AbstractViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    /***
-     * 几何天气对viewholder处理方法
-     * 除了第一张卡片item，其余卡片都应该加个cardView
-     * 对第一张做特殊处理。
-     *
-     * dp to int
-     * itemView.getContext().getResources().getDimensionPixelSize(R.dimen.mainCardDimen)
-     *
-     * @param weatherModel
-     */
+
     @CallSuper
     public void onBindView(@NotNull WeatherModel weatherModel) {
-
-
-        if (itemView instanceof MaterialCardView) {
-
-            MaterialCardView cardView = (MaterialCardView) itemView;
-            cardView.setRadius(100f);
-
-            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) cardView.getLayoutParams();
-            params.setMargins(
-                    itemView.getContext().getResources().getDimensionPixelSize(R.dimen.mainCardDimen),
-                    0,
-                    itemView.getContext().getResources().getDimensionPixelSize(R.dimen.mainCardDimen),
-                    itemView.getContext().getResources().getDimensionPixelSize(R.dimen.mainCardDimen)
-            );
-
-        }
-
-
+        /**
+         * set Background
+         */
     }
 }
