@@ -3,10 +3,10 @@ package com.lemondev.weather.ui.adapters.ViewHolder.dailyitems;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.material.button.MaterialButton;
 import com.lemondev.weather.R;
 import com.lemondev.weather.ui.adapters.OnTagClickListener;
 import com.lemondev.weather.ui.adapters.ViewHolder.AbstractItemViewHolder;
@@ -20,7 +20,7 @@ import com.lemondev.weather.utils.TransformUtils;
 public class TagViewHolder extends AbstractItemViewHolder {
     private int mTagType;
 
-    private MaterialButton tagBtn;
+    private TextView tagView;
 
     private OnTagClickListener mOnTagClickListener;
 
@@ -30,9 +30,7 @@ public class TagViewHolder extends AbstractItemViewHolder {
      */
     public TagViewHolder(@NonNull ViewGroup parent) {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.daily_tag_item, parent, false));
-
-        tagBtn = itemView.findViewById(R.id.daily_tag_btn);
-        tagBtn.getBackground().setAlpha(240);
+        tagView = itemView.findViewById(R.id.daily_tag_text);
     }
 
     public TagViewHolder(@NonNull ViewGroup parent, OnTagClickListener onTagClickListener) {
@@ -43,13 +41,15 @@ public class TagViewHolder extends AbstractItemViewHolder {
     public void onTagBind(int tagType) {
         mTagType = tagType;
 
-        tagBtn.setText(TransformUtils.getTagType(tagType));
-        tagBtn.setOnClickListener(new View.OnClickListener() {
+        tagView.setText(TransformUtils.getTagType(tagType));
+        tagView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mOnTagClickListener.onTagClick(tagType);
             }
         });
+
+        itemView.getBackground().setAlpha(100);
     }
 
     public int getTagType() {

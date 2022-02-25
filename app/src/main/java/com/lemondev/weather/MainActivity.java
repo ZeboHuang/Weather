@@ -1,25 +1,23 @@
 package com.lemondev.weather;
 
-import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.lemondev.weather.databinding.ActivityMainBinding;
+import com.lemondev.weather.models.PlaceModel;
 import com.lemondev.weather.models.WeatherModel;
 import com.lemondev.weather.request.Servicey;
 import com.lemondev.weather.request.WeatherApi;
+import com.lemondev.weather.request.WeatherApiClient;
 import com.lemondev.weather.response.WeatherResponse;
 import com.lemondev.weather.ui.fragment.MainFragment;
 import com.lemondev.weather.utils.Credentials;
-import com.lemondev.weather.viewmodels.WeatherViewModel;
+import com.lemondev.weather.viewmodels.PlaceViewModel;
 
-import java.util.Set;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,8 +30,6 @@ public class MainActivity extends BaseActivity {
 
     //viewbinding
     private ActivityMainBinding binding;
-
-    private WeatherViewModel weatherViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +44,8 @@ public class MainActivity extends BaseActivity {
                     .add(R.id.mainFragmentContainerView, MainFragment.class, null)
                     .commit();
         }
+
     }
-
-
 
 
     void GetUpdate() {

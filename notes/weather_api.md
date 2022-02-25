@@ -9,3 +9,7 @@ https://api.caiyunapp.com/v2.5/HPaZsZvbgVMK4xmA/121.6544,25.1552/weather.json
 https://api.caiyunapp.com/v2.5/HPaZsZvbgVMK4xmA/121.6544,25.1552/weather.json
 hourlysteps     //小时步长 max 48 default 48
 dailysteps      max 15  default 5
+
+
+#v2的位置搜索api
+https://api.caiyunapp.com/v2/place?token=HPaZsZvbgVMK4xmA&query=安溪县

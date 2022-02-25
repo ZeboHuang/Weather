@@ -5,14 +5,19 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.lemondev.weather.AppExcutors;
+import com.lemondev.weather.models.PlaceModel;
 import com.lemondev.weather.models.WeatherModel;
+import com.lemondev.weather.response.PlaceResponse;
 import com.lemondev.weather.response.WeatherResponse;
 import com.lemondev.weather.utils.Credentials;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
@@ -31,6 +36,7 @@ public class WeatherApiClient {
 
     private WeatherApiClient() {
         weather = new MutableLiveData<>();
+        placeList = new MutableLiveData<>();
     }
 
     public static WeatherApiClient getInstance() {
@@ -55,7 +61,6 @@ public class WeatherApiClient {
      */
     public void update(String longitude, String latitude) {
         Log.d("MTAG", "update: ");
-
 
         if (weatherRunnable != null) {
             weatherRunnable = null;
@@ -108,5 +113,61 @@ public class WeatherApiClient {
                 e.printStackTrace();
             }
         }
+    }
+
+
+    private MutableLiveData<List<PlaceModel>> placeList;
+    private PlaceRunnable placeRunnable;
+
+    /**
+     * query places
+     */
+    public void query(String query) {
+        if (placeRunnable != null) {
+            placeRunnable = null;
+        }
+
+        placeRunnable = new PlaceRunnable(query);
+
+        Future mHandler = AppExcutors.getInstance().getmNetwork().submit(placeRunnable);
+        AppExcutors.getInstance().getmNetwork().schedule(new Runnable() {
+            @Override
+            public void run() {
+                mHandler.cancel(true);
+            }
+        }, 5000, TimeUnit.MICROSECONDS);
+
+    }
+
+    private class PlaceRunnable implements Runnable {
+
+        private String query;
+
+        public PlaceRunnable(String query) {
+            this.query = query;
+        }
+
+        @Override
+        public void run() {
+            try {
+                Response<PlaceResponse> response = Servicey.getWeatherApi().queryPlaces(Credentials.CAIYUN_KEY, query).execute();
+
+                if (response.code() == 200) {
+                    if (response.body() != null) {
+                        placeList.postValue(response.body().getPlaces());
+                        Log.d("MTAG", "run: " + response.body().getQuery());
+                    }
+                } else {
+                    Log.e("ERROR", "run: " + response.errorBody());
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public MutableLiveData<List<PlaceModel>> getPlaces() {
+        return placeList;
     }
 }

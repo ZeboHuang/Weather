@@ -1,5 +1,6 @@
 package com.lemondev.weather.request;
 
+import com.lemondev.weather.response.PlaceResponse;
 import com.lemondev.weather.response.WeatherResponse;
 
 import retrofit2.Call;
@@ -21,6 +22,13 @@ public interface WeatherApi {
             @Path("latitude") String latitude,
             @Query("hourlysteps") int hourlysteps,
             @Query("dailysteps") int dailysteps
+    );
+
+    //https://api.caiyunapp.com/v2/place?token=HPaZsZvbgVMK4xmA&query=安溪县
+    @GET("/v2/place?")
+    Call<PlaceResponse> queryPlaces(
+            @Query("token") String api_key,
+            @Query("query") String query
     );
 
 

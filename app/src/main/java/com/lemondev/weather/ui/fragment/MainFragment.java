@@ -1,8 +1,8 @@
 package com.lemondev.weather.ui.fragment;
 
 
-import android.annotation.SuppressLint;
-import android.graphics.Color;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,27 +13,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.view.menu.MenuView;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.lemondev.weather.QueryActivity;
 import com.lemondev.weather.R;
-import com.lemondev.weather.databinding.FragmentMainBinding;
+import com.lemondev.weather.models.LocationModel;
+import com.lemondev.weather.models.PlaceModel;
 import com.lemondev.weather.models.WeatherModel;
 import com.lemondev.weather.request.WeatherApiClient;
 import com.lemondev.weather.ui.adapters.MainAdapter;
-import com.lemondev.weather.utils.Credentials;
 import com.lemondev.weather.utils.TransformUtils;
-import com.lemondev.weather.viewmodels.MainFragmentViewModel;
+import com.lemondev.weather.viewmodels.WeatherViewModel;
 
 /**
  * 2022/2/22
@@ -41,15 +42,19 @@ import com.lemondev.weather.viewmodels.MainFragmentViewModel;
  */
 
 public class MainFragment extends BaseFragment {
+    private final int REQUEST_FOR_LOCATION = 1;
+
+
     private ImageView mBackground;
 
-    private FragmentMainBinding binding;
-
-    private Toolbar toolbar;
+    private MaterialToolbar toolbar;
 
     private MainAdapter mainAdapter;
 
     private RecyclerView recyclerView;
+
+    protected WeatherViewModel weatherViewModel;
+
 
 
     @Override
@@ -60,36 +65,38 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        weatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        binding = FragmentMainBinding.inflate(getLayoutInflater(), container, false);
-
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         recyclerView = view.findViewById(R.id.mainFragmentRecyclerView);
         mBackground = view.findViewById(R.id.background);
+        toolbar = view.findViewById(R.id.toolbar);
 
         initView();
 
         return view;
     }
 
+    void startQueryActivity() {
+        Intent intent = new Intent(getActivity(), QueryActivity.class);
+        startActivityForResult(intent, REQUEST_FOR_LOCATION);
+    }
+
     void initView() {
-        //menu
-        ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
-        binding.toolbar.inflateMenu(R.menu.menu_top_bar);
-        binding.toolbar.setOnMenuItemClickListener(new androidx.appcompat.widget.Toolbar.OnMenuItemClickListener() {
+        //toolbar
+        toolbar.inflateMenu(R.menu.menu_top_bar);
+        toolbar.setOnMenuItemClickListener(new MaterialToolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-
                 switch (item.getItemId()) {
                     case R.id.menu_top_bar_search:
-                        Toast.makeText(getContext(), "searching...", Toast.LENGTH_SHORT).show();
+                        startQueryActivity();
                         return true;
                     case R.id.menu_top_bar_setting:
                         Toast.makeText(getContext(), "setting...", Toast.LENGTH_SHORT).show();
@@ -99,6 +106,8 @@ public class MainFragment extends BaseFragment {
                 }
             }
         });
+
+
 
         //test
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -115,11 +124,18 @@ public class MainFragment extends BaseFragment {
 
         ObserveWeatherChanged();
 
-        WeatherApiClient.getInstance().update(
-                String.valueOf(118.186289),
-                String.valueOf(25.055955));
+        WeatherApiClient.getInstance().
+                update(
+                        String.valueOf(118.186289),
+                        String.valueOf(25.055955));
+    }
 
-
+    void update(LocationModel location) {
+        Log.d("MTAG", "update address " + location.getLocation());
+        WeatherApiClient.getInstance().
+                update(
+                        location.getLongitude(),
+                        location.getLatitude());
     }
 
 
@@ -141,22 +157,16 @@ public class MainFragment extends BaseFragment {
 
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_top_bar, menu);
-    }
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_FOR_LOCATION) {
+            if (resultCode == AppCompatActivity.RESULT_OK) {
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_top_bar_search:
-                Toast.makeText(getContext(), "searching...", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.menu_top_bar_setting:
-                Toast.makeText(getContext(), "setting...", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return false;
+                Bundle bundle = data.getBundleExtra("place");
+                PlaceModel placeModel = bundle.getParcelable("placeModel");
+                toolbar.setTitle(placeModel.getName());
+                update(placeModel.getLocation());
+            }
         }
     }
 }

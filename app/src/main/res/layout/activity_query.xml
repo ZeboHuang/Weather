@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.Weather"
+    tools:context=".QueryActivity">
 
     <ImageView
-        android:id="@+id/background"
+        android:id="@+id/query_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
@@ -17,22 +21,22 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:paddingTop="10dp"
-            app:liftOnScroll="true">
+            android:background="@android:color/transparent">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:paddingTop="10dp"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
-                app:navigationIcon="@drawable/ic_baseline_home_24"
-                app:title="location" />
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+                app:title="query"
+                app:titleCentered="true" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mainFragmentRecyclerView"
+            android:id="@+id/query_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
